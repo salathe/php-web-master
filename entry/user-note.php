@@ -47,7 +47,12 @@ if (check_spam_words($note_lc, $words_blacklist)) {
     die('[SPAM WORD]');
 }
 
-// Check if the IP is blacklisted
+// Check if the IP is blacklisted by us
+if (($spamip=is_blacklist_ip($_SERVER['REMOTE_ADDR'])) || ($spamip=is_blacklist_ip($ip)) || ($redirip && $spamip=is_blacklist_ip($redirip))) {
+    die ("[BLACKLISTED IP] $spamip");
+}
+
+// Check if the IP is DNS blacklisted
 if (($spamip=is_spam_ip($_SERVER['REMOTE_ADDR'])) || ($spamip=is_spam_ip($ip)) || ($redirip && $spamip=is_spam_ip($redirip))) {
     die ("[SPAMMER] $spamip");
 }

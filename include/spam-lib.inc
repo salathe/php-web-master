@@ -47,6 +47,11 @@ $words_blacklist = array(
 	'http://republika.pl',
 );
 
+// Sometimes we want to block by IP
+$ip_blacklist = array(
+    '95.90.226.94', // max[dot]mueller[dot]65[at]gmx[dot]de
+);
+
 function check_spam_words ($text, $badwords) {
 	foreach($badwords as $badword) {
     	if (strpos($text, $badword) !== false) {
@@ -82,6 +87,13 @@ function check_spam_assassin ($text, $sa_path) {
     	$spam_data = 'Error matching the SpamAssassin data';
 	}
 	return $spam_data;
+}
+
+// Check if an IP is in our own blacklist
+function is_blacklist_ip($ip) {
+    global $ip_blacklist;
+
+    return in_array($ip, $ip_blacklist, true);
 }
 
 // Check if an IP is marked as spammer
