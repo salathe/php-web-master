@@ -206,7 +206,7 @@ if ($id && $in) {
 
           if(!empty($in['profile_markdown'])) {
             $profile_markdown = $in['profile_markdown'];
-            $profile_html = Markdown($profile_markdown);
+            $profile_html = Markdown(htmlentities($profile_markdown, ENT_NOQUOTES | ENT_HTML401, 'UTF-8'));
             $profile_markdown = mysql_real_escape_string($profile_markdown);
             $profile_html = mysql_real_escape_string($profile_html);
             $query = "INSERT INTO users_profile (userid, markdown, html) VALUES ($id, '$profile_markdown', '$profile_html')
